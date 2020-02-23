@@ -24,8 +24,8 @@ BLUE_SAMPLES = np.array([
 ], dtype="float32")
 
 LABELS_SAMPLES = np.concatenate(
-    (np.array(len(RED_SAMPLES)*[[0,1]], dtype="float32"), # Red output
-    np.array(len(BLUE_SAMPLES)*[[1,0]], dtype="float32")), # Blue output
+    (np.array(len(RED_SAMPLES)*[[0,1]], dtype="float32"), # Red output labels
+    np.array(len(BLUE_SAMPLES)*[[1,0]], dtype="float32")), # Blue output labels
     axis=0
 )
 #######################################################################################
@@ -46,8 +46,10 @@ for i, pt in enumerate(input_samples):
 net = models.Sequential()
 
 # adding layers
-net.add(layers.Dense(80, activation="sigmoid", input_shape=(2,))) # input will be a point through layer of 80 neurons
-net.add(layers.Dense(2, activation="softmax")) # output will be 2 values, representing the confidence in color
+# input will be a point through layer of 80 neurons
+net.add(layers.Dense(80, activation="sigmoid", input_shape=(2,)))
+# output will be 2 values, representing the confidence in classified color
+net.add(layers.Dense(2, activation="softmax"))
 net.compile(
     optimizer="rmsprop",
     loss="categorical_crossentropy",
@@ -58,7 +60,7 @@ net.compile(
 net_history = net.fit(normalized_samples, LABELS_SAMPLES, epochs=25000)
 
 # plot accuracy and loss plots
-accuracy = net_history.history["acc"] # for some reason i need to type accuracy instead of acc
+accuracy = net_history.history["acc"]
 loss = net_history.history["loss"]
 epochs = range(1, len(loss) + 1)
 
