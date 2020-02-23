@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from keras import models
 from keras import layers
 from keras import utils
-from keras import optimizers
 #######################################################################################
 # prepare samples
 RED_SAMPLES = np.array([
